@@ -263,7 +263,7 @@ console.log("JWT_SECRET used to verify   during login:", process.env.SECRET);
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .status(200)
@@ -287,7 +287,10 @@ console.log("JWT_SECRET used to verify   during login:", process.env.SECRET);
 const logout = async (req, res) => {
   try {
     return res.cookie("token", "", {
-      maxAge: 0
+      maxAge: 0,
+        httpOnly: true,
+  secure: true,
+  sameSite: "none",
     }).json({
       message: "Logged out successfully.",
       success: true
