@@ -23,7 +23,7 @@ const port = 7777;
 const corsOptions = {
   origin: [
     "http://localhost:5173", // Local dev
-    "https://social-mediagram.netlify.app/", // deployed frontend
+    "https://social-mediagram.netlify.app", // deployed frontend
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
