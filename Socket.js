@@ -11,7 +11,7 @@ const io = new Server(server, {
       "http://localhost:5173",              
       "https://social-mediagram.netlify.app", 
     ],
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },
 });

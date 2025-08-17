@@ -21,7 +21,7 @@
 
 //   const logoutHandler = async () => {
 //     try {
-//       const res = await axios.get('https://social-media-server-3ykc.onrender.com/api/v1/user/logout', {
+//       const res = await axios.get('https://reel-server.onrender.com/api/v1/user/logout', {
 //         withCredentials: true,
 //       });
 //       if (res.data.success) {
@@ -205,7 +205,7 @@ const [textMessage,settextMessage]=useState('');
     if (!textMessage.trim()) return; // prevent sending empty message
 
     const res = await axios.post(
-      `https://social-media-server-3ykc.onrender.com/api/v1/message/send/${receiverId}`,
+      `https://reel-server.onrender.com/api/v1/message/send/${receiverId}`,
       { textMessage },
       {
         headers: {
@@ -424,7 +424,7 @@ const ReelsPage = () => {
     const action = liked ? "dislike" : "like";
     try {
       const res = await axios.post(
-        `https://social-media-server-3ykc.onrender.com/api/v1/reel/${action}/${reel._id}`,
+        `https://reel-server.onrender.com/api/v1/reel/${action}/${reel._id}`,
         {},
         { withCredentials: true }
       );
@@ -451,7 +451,7 @@ const ReelsPage = () => {
   const commentHandler = async (reel, text) => {
     try {
       const res = await axios.post(
-        `https://social-media-server-3ykc.onrender.com/api/v1/reel/comment/${reel._id}`,
+        `https://reel-server.onrender.com/api/v1/reel/comment/${reel._id}`,
         { text },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -476,7 +476,7 @@ const ReelsPage = () => {
   const bookmarkHandler = async (reel) => {
     try {
       const res = await axios.get(
-        `https://social-media-server-3ykc.onrender.com/api/v1/reel/${reel._id}/bookmark`,
+        `https://reel-server.onrender.com/api/v1/reel/${reel._id}/bookmark`,
         { withCredentials: true }
       );
       if (res.data.success) toast.success(res.data.message);
@@ -488,7 +488,7 @@ const ReelsPage = () => {
 const followOrUnfollowHandler = async (authorId) => {
   try {
     const res = await axios.post(
-      `https://social-media-server-3ykc.onrender.com/api/v1/user/followorunfollow/${authorId}`,
+      `https://reel-server.onrender.com/api/v1/user/followorunfollow/${authorId}`,
       {},
       { withCredentials: true }
     );
