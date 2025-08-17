@@ -179,7 +179,6 @@ const Reel = require("../model/reel.model");
 //     }
 // };
 
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -191,7 +190,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 🔍 Find user
     let user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
@@ -200,7 +198,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 🔐 Compare password
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       return res.status(401).json({
@@ -209,12 +206,10 @@ const login = async (req, res) => {
       });
     }
 
-    // 🧠 Create token
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+    const token = jwt.sign({ userId: user._id }, "ALLISSWELLALLISSWELL", {  
       expiresIn: "7d",
     });
 
-    // ✅ Populate posts
     const populatedPosts = await Promise.all(
       user.posts.map(async (postId) => {
         const post = await Post.findById(postId)
@@ -223,7 +218,6 @@ const login = async (req, res) => {
       })
     );
 
-    // ✅ Populate reels with null check
     const populatedReels = await Promise.all(
       user.reels.map(async (reelId) => {
         try {
@@ -237,9 +231,9 @@ const login = async (req, res) => {
       })
     );
 
-    const validReels = populatedReels.filter(Boolean); // remove nulls
+    const validReels = populatedReels.filter(Boolean);
 
-    // ✅ Final user object to return
+    // ✅ Final user object
     const formattedUser = {
       _id: user._id,
       username: user.username,
@@ -256,15 +250,13 @@ const login = async (req, res) => {
       createdAt: user.createdAt,
     };
 
-    console.log("Token received:", req.cookies.token);
-console.log("JWT_SECRET used to verify   during login:", process.env.SECRET);
-
-    // ✅ Set cookie and return response
+  
     return res
       .cookie("token", token, {
         httpOnly: true,
-        sameSite: "none",
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
+        secure: true,         
+        sameSite: "none",   
+        maxAge: 7 * 24 * 60 * 60 * 1000, 
       })
       .status(200)
       .json({
@@ -283,14 +275,13 @@ console.log("JWT_SECRET used to verify   during login:", process.env.SECRET);
 };
 
 
-
 const logout = async (req, res) => {
   try {
     return res.cookie("token", "", {
+      httpOnly: true,
+      secure: true,      // ✅ same as login
+      sameSite: "none",  // ✅ required for cross-site
       maxAge: 0,
-        httpOnly: true,
-  secure: true,
-  sameSite: "none",
     }).json({
       message: "Logged out successfully.",
       success: true
@@ -304,7 +295,6 @@ const logout = async (req, res) => {
     });
   }
 };
-
 
 
 const editProfile = async (req, res) => {

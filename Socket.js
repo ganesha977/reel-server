@@ -8,8 +8,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173",               // local dev
-      "https://social-mediagram.netlify.app", // deployed frontend
+      "http://localhost:5173",              
+      "https://social-mediagram.netlify.app", 
     ],
     methods: ["GET", "POST"],
     credentials: true,
@@ -31,4 +31,4 @@ io.on("connection", (socket) => {
   });
 });
 
-module.exports = { app, server, io, getReceiverSocketId };
+module.exports = {  app, server, io, getReceiverSocketId };

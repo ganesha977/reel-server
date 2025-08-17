@@ -19,7 +19,8 @@ require("./controller/story.controller");
 const { app, server } = require("./Socket");
 
 
-const port = 7777;
+const PORT = process.env.PORT || 7777;
+
 const corsOptions = {
   origin: [
     "http://localhost:5173", // Local dev
@@ -48,6 +49,6 @@ app.get("/", (req, res) => {
   console.log("home");
 });
 
-server.listen(port, () => {
-  console.log(`server is listening at port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
